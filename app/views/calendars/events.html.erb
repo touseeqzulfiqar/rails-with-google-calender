@@ -1,0 +1,49 @@
+<h1>My Calendars</h1>
+
+<% if @calendar_list && @calendar_list.items.any? %>
+  <ul>
+    <% @calendar_list.items.each do |calendar| %>
+      <li>
+        <%= calendar.summary %> 
+        <%= link_to 'View Events', events_path(calendar_id: calendar.id) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No calendars found.</p>
+<% end %>
+
+<h1>Calendar Events</h1>
+
+<% if @event_list.items.present? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Location</th>
+        <th>Description</th>
+        <th>Organizer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @event_list.items.each do |event| %>
+        <tr>
+          <td>
+            <a href="<%= event.html_link %>" target="_blank">
+              <%= event.summary.present? ? event.summary : 'No Title' %>
+            </a>
+          </td>
+          <td><%= event.start.date_time || event.start.date %></td>
+          <td><%= event.end.date_time || event.end.date %></td>
+          <td><%= event.location || 'No Location' %></td>
+          <td><%= event.description.present? ? simple_format(event.description) : 'No Description' %></td>
+          <td><%= event.organizer&.display_name || event.organizer&.email || 'No Organizer' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No events found for this calendar.</p>
+<% end %>

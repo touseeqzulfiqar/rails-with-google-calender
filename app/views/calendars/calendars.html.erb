@@ -1,0 +1,14 @@
+<h1>My Calendars</h1>
+
+<% if @calendar_list && @calendar_list.items.any? %>
+  <ul>
+    <% @calendar_list.items.each do |calendar| %>
+      <li>
+        <%= calendar.summary %> 
+        <%= link_to 'View Events', events_path(calendar_id: calendar.id) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No calendars found.</p>
+<% end %>
